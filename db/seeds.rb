@@ -7,7 +7,7 @@ if ENV['CLEAN'].present?
   Attachment.destroy_all
 end
 
-agent = User.where(email: 'agent@getbrimir.com').first_or_create({ email: 'agent@getbrimir.com', password: 'testtest', password_confirmation: 'testtest' })
+agent = User.where(email: 'maorjl@gmail.com').first_or_create({ email: 'maorjl@gmail.com', password: 'foobarfoo', password_confirmation: 'foobarfoo' })
 agent.agent = true
 agent.save!
 

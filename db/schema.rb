@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150104173344) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "attachments", force: :cascade do |t|
     t.integer  "attachable_id"
     t.string   "attachable_type"
@@ -24,7 +27,7 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.datetime "file_updated_at"
   end
 
-  add_index "attachments", ["attachable_id"], name: "index_attachments_on_attachable_id"
+  add_index "attachments", ["attachable_id"], name: "index_attachments_on_attachable_id", using: :btree
 
   create_table "email_addresses", force: :cascade do |t|
     t.string   "email"
@@ -40,7 +43,7 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.string  "provider"
   end
 
-  add_index "identities", ["user_id"], name: "index_identities_on_user_id"
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "labelings", force: :cascade do |t|
     t.integer  "label_id"
@@ -50,9 +53,9 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.datetime "updated_at"
   end
 
-  add_index "labelings", ["label_id", "labelable_id", "labelable_type"], name: "unique_labeling_label", unique: true
-  add_index "labelings", ["label_id"], name: "index_labelings_on_label_id"
-  add_index "labelings", ["labelable_type", "labelable_id"], name: "index_labelings_on_labelable_type_and_labelable_id"
+  add_index "labelings", ["label_id", "labelable_id", "labelable_type"], name: "unique_labeling_label", unique: true, using: :btree
+  add_index "labelings", ["label_id"], name: "index_labelings_on_label_id", using: :btree
+  add_index "labelings", ["labelable_type", "labelable_id"], name: "index_labelings_on_labelable_type_and_labelable_id", using: :btree
 
   create_table "labels", force: :cascade do |t|
     t.string   "name"
@@ -69,9 +72,9 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.datetime "updated_at"
   end
 
-  add_index "notifications", ["notifiable_id", "notifiable_type", "user_id"], name: "unique_notification", unique: true
-  add_index "notifications", ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
-  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id"
+  add_index "notifications", ["notifiable_id", "notifiable_type", "user_id"], name: "unique_notification", unique: true, using: :btree
+  add_index "notifications", ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id", using: :btree
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "replies", force: :cascade do |t|
     t.text     "content"
@@ -83,9 +86,9 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.string   "content_type", default: "html"
   end
 
-  add_index "replies", ["message_id"], name: "index_replies_on_message_id"
-  add_index "replies", ["ticket_id"], name: "index_replies_on_ticket_id"
-  add_index "replies", ["user_id"], name: "index_replies_on_user_id"
+  add_index "replies", ["message_id"], name: "index_replies_on_message_id", using: :btree
+  add_index "replies", ["ticket_id"], name: "index_replies_on_ticket_id", using: :btree
+  add_index "replies", ["user_id"], name: "index_replies_on_user_id", using: :btree
 
   create_table "rules", force: :cascade do |t|
     t.string   "filter_field"
@@ -104,7 +107,7 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.datetime "updated_at"
   end
 
-  add_index "status_changes", ["ticket_id"], name: "index_status_changes_on_ticket_id"
+  add_index "status_changes", ["ticket_id"], name: "index_status_changes_on_ticket_id", using: :btree
 
   create_table "tickets", force: :cascade do |t|
     t.string   "subject"
@@ -119,11 +122,11 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.integer  "priority",     default: 0,      null: false
   end
 
-  add_index "tickets", ["assignee_id"], name: "index_tickets_on_assignee_id"
-  add_index "tickets", ["message_id"], name: "index_tickets_on_message_id"
-  add_index "tickets", ["priority"], name: "index_tickets_on_priority"
-  add_index "tickets", ["status"], name: "index_tickets_on_status"
-  add_index "tickets", ["user_id"], name: "index_tickets_on_user_id"
+  add_index "tickets", ["assignee_id"], name: "index_tickets_on_assignee_id", using: :btree
+  add_index "tickets", ["message_id"], name: "index_tickets_on_message_id", using: :btree
+  add_index "tickets", ["priority"], name: "index_tickets_on_priority", using: :btree
+  add_index "tickets", ["status"], name: "index_tickets_on_status", using: :btree
+  add_index "tickets", ["user_id"], name: "index_tickets_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at"
@@ -147,7 +150,7 @@ ActiveRecord::Schema.define(version: 20150104173344) do
     t.string   "locale"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
